@@ -29,7 +29,7 @@ Hardware Setup
 •	UART console access (TTL-232R-RPI) or SSH; login root/root.
 •	Power supply: 12 V / 5 A recommended.
 
-.. image:: rfnm-board.png
+.. image:: pictures/rfnm-board.png
 
 RFNM official firmware
 **********************
@@ -37,7 +37,7 @@ RFNM official firmware
 RFNM provides an official, productized firmware environment enabling various SDR software frameworks, such as GNU Radio and SoapySDR drivers.
 Users can run SDR applications (e.g. SDR++) directly on a laptop when connecting the RFNM board over USB. refer to
 
--  'rfnm_shipping_intro_doc.pdf'
+-  'pdf/rfnm_shipping_intro_doc.pdf'
 
 The RFNM VSPA firmware is derived from IQ Player.
 
@@ -118,7 +118,7 @@ Play and Capture I/Q Waveforms
 Load and start VSPA firmware
 ::
 
- ./load-nlm.sh
+ ./load-la9310.sh
 
 Confugre LimeRF
 ::

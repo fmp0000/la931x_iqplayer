@@ -23,10 +23,14 @@ limesdr-micro M.2 board
 
 Hardware Setup
 **************
+LimeSDR-Micro
+ .. image:: pictures/LimeSDR-Micro-board.jpg
 
-.. image:: LimeSDR-Micro-board.jpg
+imx95-frdm
+ .. image:: pictures/imx95-frdm_LimeSDR-Micro-board.png
 
-.. image:: imx95-frdm_LimeSDR-Micro-board.png
+imx8mp-frdm
+ .. image:: pictures/imx8mp-frdm_LimeSDR-Micro-board.png
 
 LimeSDR-Micro official software environment
 *******************************************
@@ -283,7 +287,16 @@ Add Reserved Memory for la93xx_host_sw
                          reg = <0 0xa0000000 0 0x100000>;
                          no-map;
  
- 
+Allow access to devmem from userspace
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ need to change kernel config
+ ::
+
+  -- CONFIG_STRICT_DEVMEM=y
+  ++ CONFIG_STRICT_DEVMEM=n
+
+
 Compile Linux Kernel and Device Tree
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ::
@@ -298,15 +311,15 @@ Compile Linux Kernel and Device Tree
 Deploy Linux Image
 ~~~~~~~~~~~~~~~~~~
 
-Replace kernel image and device tree on the target (example for eMMC deployment):
+Replace kernel image and device tree on the target :
 ::
 
   arch/arm64/boot/dts/freescale/imx95-15x15-frdm.dtb
-  arch/arm64/boot/dts/freescale/imx8mp-frdm-os08a20.dtb 
+  arch/arm64/boot/dts/freescale/imx8mp-frdm.dtb 
   arch/arm64/boot/Image 
 
-  root@frdm:~# ls /run/media/boot-mmcblk1p1
-  Image  imx95-15x15-frdm.dtb imx8mp-frdm-os08a20.dtb   
+  root@frdm:~# ls /boot/
+  Image  imx95-15x15-frdm.dtb imx8mp-frdm.dtb   
 
 prepare kernel modules
 
@@ -353,12 +366,34 @@ Recompile the shiva driver against the newly built kernel.
  export CROSS_COMPILE=aarch64-linux-gnu-
  export ARCH=arm64
  make clean
- CONFIG_ENABLE_FLOAT_BYPASS=y make IMX_SDR=1 
+ CONFIG_ENABLE_FLOAT_BYPASS=y make
+
+ make install
+ scp -r install/* root@<targetIP>:/
+
 
 copy la9310shiva.ko to:
 ::
 
  /lib/modules/$(uname -r)/extra/ 
+
+
+la93xx_host_sw
+..............
+
+iq_mon is relying on standard ARMv8 linux kernel allowing access to CPU perf counter. 
+It is deployed by default in our BSP images. Otherwise here how to  compile it
+::
+
+ git clone https://github.com/jerinjacobk/armv8_pmu_cycle_counter_el0
+ cd armv8_pmu_cycle_counter_el0/
+ make CROSS_COMPILE=aarch64-linux-gnu-   ARCH=arm64 KDIR=<PATH_TO_LINUX_KERNEL>
+
+copy pmu_el0_cycle_counter.ko to:
+::
+
+ /lib/modules/$(uname -r)/extra/ 
+
 
 IQ Player
 .........
@@ -379,10 +414,18 @@ Default VSPA tools path:
 Testing 
 *******
 
+IQ Player scripts expect default sh as bash shell
+if not need to replace script directive 
+::
+
+ cd ~/host_utils
+ sed -i 's/\/bin\/sh/\/bin\/bash/g' *.sh
+
+
 load and start VSPA firmware
 ::
 
- ./load-nlm.sh
+ ./load-la9310.sh
 
 confugre LimeRF using LimeSuiteNG freeRTOS CLI (if available)
 

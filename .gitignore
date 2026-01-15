@@ -16,7 +16,6 @@
 *.md5
 *.orig
 *.csv
-*.png
 *.tex
 *~
 *.tags

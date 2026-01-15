@@ -289,6 +289,17 @@ Debugging & Monitoring
   DMA_CFG_ERROR  0x00901003
   DMA_XFER_ERROR 0x00000000
 
+::
+
+ #clear vspa stats
+ ./stats.sh -1
+
+ #clear host stats
+ ./iq_mon -c
+
+ # get vspa trace
+  iq_streamer -d
+
 IQ Data Format
 **************
  
@@ -331,7 +342,7 @@ For example, IQ Player supports multiple configurations:
 
 ::
 
-./load-nlm.sh   -> Start vspa on default /lib/firmware/apm-iqplayer-1T1R.eld   
+./load-la9310.sh   -> Start vspa on default /lib/firmware/apm-iqplayer-1T1R.eld   
 ./iq-swreset.sh -> Issue opcode to put VSPA in done state with all event cleared, config start as go handler
 ./iq-reload-vspa.sh /lib/firmware/apm-iqplayer-1T2R.eld -> Configure VSPA DMA to load vpram, vdram, idram . 
 ./stats.sh 0   -> Issue any command to wakeup vspa and restart on new image

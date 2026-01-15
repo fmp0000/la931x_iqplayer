@@ -36,7 +36,7 @@ scp -r install/* root@<targetIP>:/
 
 load and start VSPA firmware
 ```sh
- ./load-nlm.sh
+ ./load-la9310.sh
 ```
 
 confugre RF (optional for axiq loopback or breakout card)
