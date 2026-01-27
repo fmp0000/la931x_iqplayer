@@ -211,8 +211,8 @@ user needto ensure la9310 BAR0-2 are enabled before issuing ./load-la9310.sh
 
 ::
 
- root@imx95frdm:# dmesg |grep 1c12
- [    3.413672] pci 0000:01:00.0: [1957:1c12] type 00 class 0x000280 PCIe Endpoint
+ root@imx95frdm:# lspci |grep 1c12
+ 0000:01:00.0 Unclassified device [0002]: Freescale Semiconductor Inc Device 1c12 (rev 10) (prog-if 80)
 
  root@imx95frdm:~# lspci -v -s 0000:01:00.0
  0000:01:00.0 Unclassified device [0002]: Freescale Semiconductor Inc Device 1c12 (rev 10) (prog-if 80)
@@ -372,7 +372,7 @@ Tips
 ****
 
 Unexpected imx95frdm going to sleep
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+...................................
 
 ::
  root@imx95frdm:~/host_utils# [  916.073426] fsl_enetc4 0001:00:00.0 eth0: Link is Down

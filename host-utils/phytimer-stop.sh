@@ -4,7 +4,7 @@
 ####################################################################
 #set -x
 
-la9310_ccsr_base=0x`dmesg | grep BAR:0|cut -f 2 -d "x"|cut -f 1 -d " "| head -1`
+la9310_ccsr_base=0x`la9310_modem_info | grep CCSR |cut -f 2 -d "x"|cut -f 1 -d " "`
 phytimer_base=$[$la9310_ccsr_base + 0x1020000]
 
 devmem $[$phytimer_base + 0x0c] w 0x00000005

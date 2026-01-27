@@ -49,7 +49,7 @@ insmod /lib/modules/$(uname -r)/extra/pmu_el0_cycle_counter.ko
 #dpdk-dfe_app -c "fdd start"
 # workaround.. until dpdk-dfe_app enables all channels
 
-la9310_ccsr_base=0x`dmesg | grep BAR:0|cut -f 2 -d "x"|cut -f 1 -d " "| head -1`
+la9310_ccsr_base=0x`la9310_modem_info | grep CCSR |cut -f 2 -d "x"|cut -f 1 -d " "`
 phytimer_base=$[$la9310_ccsr_base + 0x1020000]
 devmem $[$phytimer_base + 0x0c] w 0x0000000a
 devmem $[$phytimer_base + 0x14] w 0x0000000a
@@ -67,8 +67,8 @@ devmem $[$phytimer_base + 0x5c] w 0x0000000a
 #  00010303 -> 61.44Mhz
 #  00000000 -> 122.88Mhz
 
-ddrh=`dmesg |grep "IQ Flood Buffer"|cut -f 7 -d ":"|cut -f 1 -d " "| head -1`
-maxsize=`dmesg |grep IQFLOOD |cut -f 2 -d "z"|cut -f 2 -d " "| head -1`
+ddrh=`la9310_modem_info | grep FLOOD |cut -f 2 -d "|" |sed 's/	//g'|sed 's/ //g'`
+maxsize=`la9310_modem_info | grep FLOOD |cut -f 4 -d "|" |sed 's/	//g'|sed 's/ //g'`
 if [[ "$ddrh" -eq "" ]];then
         echo can not retrieve IQFLOOD region, is LA9310 shiva started ?
         exit 1

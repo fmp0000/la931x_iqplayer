@@ -19,10 +19,10 @@ if [ $# -lt 2 ];then
 fi
 
 # check la9310 shiva driver and retrieve iqsample info i.e. iqflood in scratch buffer (non cacheable)
-# [] NXP-LA9310-Driver 0000:01:00.0: RFNM IQFLOOD Buff:0xc0000000[H]-0x96400000[M],size 20971520
-ddrh=`dmesg |grep "IQ Flood Buffer"|cut -f 7 -d ":"|cut -f 1 -d " "| head -1`
-ddrep=`dmesg |grep IQFLOOD|cut -f 5 -d ":"|cut -f 1 -d "-"|cut -f 1 -d "["| head -1`
-maxsize=`dmesg |grep IQFLOOD |cut -f 2 -d ","|cut -f 2 -d " "| head -1`
+
+ddrh=`la9310_modem_info | grep FLOOD |cut -f 2 -d "|" |sed 's/	//g'|sed 's/ //g'`
+ddrep=`la9310_modem_info | grep FLOOD |cut -f 3 -d "|" |sed 's/	//g'|sed 's/ //g'`
+maxsize=`la9310_modem_info | grep FLOOD |cut -f 4 -d "|" |sed 's/	//g'|sed 's/ //g'`
 buff=`printf "0x%X\n" $[$maxsize/2 + $ddrh]`
 buffep=`printf "0x%X\n" $[$maxsize/2 + $ddrep]`
 if [[ "$ddrh" -eq "" ]];then

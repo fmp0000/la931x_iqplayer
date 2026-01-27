@@ -73,7 +73,7 @@ static inline uint64_t get_modem_ccsr_base(void) {
         // printf("configuration file not found, try the default device.\n");
         /* Open the command for reading. */
         // fp = popen("lspci -v -s 0002:01:00.0 -d :1c30 | grep Memory | head -n 1 | awk '{print $3; }'", "r");
-        fp = popen("dmesg |grep 'BAR:0'|cut -f 6 -d ':'|cut -f 1 -d ' '", "r");
+        fp = popen("la9310_modem_info | grep CCSR |cut -f 2 -d \"s\"|cut -f 1 -d \"S\"|sed 's/\t//g'|sed 's/ //g'", "r");
         if (fp == NULL) {
             printf("Failed to run command\n");
             exit(1);

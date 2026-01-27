@@ -115,15 +115,40 @@ This region is:
 - Mapped over PCI by the LA9310 driver la9310shiva using endpoint outbound windows
 
 The configuration includes:
-- Host physical address (e.g., 0x96400000)
+- Host physical address (e.g., 0x148000000 )
 - Associated LA9310 physical address (e.g., 0xb0001000)
 
-These values can be retrieved from the kernel log after initialization :
+These values can be retrieved using la9310_modem_info :
 ::
  
- root@imx8mp-rfnm:~# dmesg |grep -i iqflood
- NXP-LA9310-Driver 0000:01:00.0: RFNM IQFLOOD Buff:0xb0001000[H]-0x96400000[M],size 218103808
-
+ root@imx95frdm:~/host_utils# la9310_modem_info
+ Board Name - NA
+ LA93xx ID:0
+ Dev name - shiva0
+ PCI addr - 0000:01:00.0
+ PCI WIN start     0x0 Size:0x40000000
+ HIF start         0x92101b000 Size:0x328
+ CCSR phys         0x910000000 Size:0x10000000
+ TCML phys         0x921000000 Size:0x20000
+ TCMU phys         0x928000000 Size:0x800000
+ Scratch buf phys 0x144000000 Size:0x1e19240
+ Scrach Buf Regions
+ Region           |      Host Phy Addr    |      Modem Phy Addr   |      Size
+ VSPA OVERLAY phys|      0xfe000000       |      0xa0000000       |      0x200000
+ VSPA start       |      0xfe200040       |      0xa0200040       |      0x0
+ FW start         |      0xfe200080       |      0xa0200080       |      0x18000
+ DBG LOG phys     |      0xfe2180c0       |      0xa02180c0       |      0x1000
+ IQ SAMPLES phys  |      0xfe219100       |      0xa0219100       |      0x1400000
+ IQ FLOOD phys    |      0x148000000      |      0xb0001000       |      0x2000000
+ NLM OPS start    |      0xff619140       |      0xa1619140       |      0x800000
+ STD FW phys      |      0xffe19180       |      0xa1e19180       |      0x20000
+ RF CAL phys      |      0xffe391c0       |      0xa1e391c0       |      0x32000
+ DAC Mask: 0x1  Rate: 61.44 MHz
+ ADC-0: ON  Rate : 61.44 MHz
+ ADC-1: ON  Rate : 61.44 MHz
+ ADC-2: ON  Rate : 61.44 MHz
+ ADC-3: ON  Rate : 61.44 MHz
+ 
 
 Single-Buffer Replay (TX)
 -------------------------
